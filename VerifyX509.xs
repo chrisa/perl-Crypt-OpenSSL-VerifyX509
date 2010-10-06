@@ -94,18 +94,17 @@ new(class, cafile_str)
   OUTPUT:
   RETVAL
 
-SV *
+int
 verify(store, x509)
   Crypt::OpenSSL::VerifyX509 store;
   Crypt::OpenSSL::X509 x509;
 
   PREINIT:
   
-  int i = 0;
   X509_STORE_CTX *csc;
 
   CODE:
-
+  
   if (x509 == NULL)
     croak("no cert to verify");
 
@@ -118,13 +117,11 @@ verify(store, x509)
   if (!X509_STORE_CTX_init(csc,store,x509,NULL))
     croak("store ctx init: %s", ssl_error());
     
-  i = X509_verify_cert(csc);
+  RETVAL = X509_verify_cert(csc);
   X509_STORE_CTX_free(csc);
 
-  if (!i)
+  if (!RETVAL)
     croak("verify: %s", ctx_error(csc));
-
-  RETVAL = newSViv(i);
 
   OUTPUT:
   RETVAL
