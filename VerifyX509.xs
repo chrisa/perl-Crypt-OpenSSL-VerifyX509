@@ -15,23 +15,19 @@
 typedef X509_STORE*  Crypt__OpenSSL__VerifyX509;
 typedef X509*  Crypt__OpenSSL__X509;
 
-static int cb(int ok, X509_STORE_CTX *ctx) {
+static int verify_cb(int ok, X509_STORE_CTX *ctx) {
   if (!ok)
-    {
-      if (ctx->error == X509_V_ERR_CERT_HAS_EXPIRED) ok=1;
-      /* since we are just checking the certificates, it is
-       * ok if they are self signed. But we should still warn
-       * the user.
-       */
-      if (ctx->error == X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT) ok=1;
-      /* Continue after extension errors too */
-      if (ctx->error == X509_V_ERR_INVALID_CA) ok=1;
-      if (ctx->error == X509_V_ERR_PATH_LENGTH_EXCEEDED) ok=1;
-      if (ctx->error == X509_V_ERR_INVALID_PURPOSE) ok=1;
-      if (ctx->error == X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT) ok=1;
-      if (ctx->error == X509_V_ERR_CRL_HAS_EXPIRED) ok=1;
-      if (ctx->error == X509_V_ERR_CRL_NOT_YET_VALID) ok=1;
-      if (ctx->error == X509_V_ERR_UNHANDLED_CRITICAL_EXTENSION) ok=1;
+    switch (ctx->error) {
+    case X509_V_ERR_CERT_HAS_EXPIRED:
+    case X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT:
+    case X509_V_ERR_INVALID_CA:
+    case X509_V_ERR_PATH_LENGTH_EXCEEDED:
+    case X509_V_ERR_INVALID_PURPOSE:
+    case X509_V_ERR_CRL_HAS_EXPIRED:
+    case X509_V_ERR_CRL_NOT_YET_VALID:
+    case X509_V_ERR_UNHANDLED_CRITICAL_EXTENSION:
+      ok = 1;
+      break;
     }
   return(ok);
 }
@@ -73,7 +69,7 @@ new(class, cafile_str)
   if (RETVAL == NULL)
     croak("failure to allocate x509 store: %s", ssl_error());
 
-  X509_STORE_set_verify_cb_func(RETVAL,cb);
+  X509_STORE_set_verify_cb_func(RETVAL,verify_cb);
   
   /* load CA file given */
   lookup = X509_STORE_add_lookup(RETVAL, X509_LOOKUP_file());
