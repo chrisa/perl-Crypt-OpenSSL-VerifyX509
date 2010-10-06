@@ -19,7 +19,7 @@ static int verify_cb(int ok, X509_STORE_CTX *ctx) {
   if (!ok)
     switch (ctx->error) {
     case X509_V_ERR_CERT_HAS_EXPIRED:
-    case X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT:
+ /* case X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT: */
     case X509_V_ERR_INVALID_CA:
     case X509_V_ERR_PATH_LENGTH_EXCEEDED:
     case X509_V_ERR_INVALID_PURPOSE:
