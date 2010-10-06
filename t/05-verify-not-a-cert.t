@@ -7,8 +7,8 @@ ok($v);
 
 my $ret;
 eval {
-	my $not_cert = 'foo!';
-	$ret = $v->verify($not_cert);
+        my $not_cert = 'foo!';
+        $ret = $v->verify($not_cert);
 };
 ok($@ =~ /^Crypt::OpenSSL::VerifyX509::verify: x509 is not of type Crypt::OpenSSL::X509/);
 ok(!$ret);

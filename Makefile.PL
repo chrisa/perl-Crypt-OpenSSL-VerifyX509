@@ -70,5 +70,7 @@ resources
      bugtracker  => "http://rt.cpan.org/NoAuth/Bugs.html?Dist=Crypt-OpenSSL-VerifyX509",
      repository  => "http://github.com/chrisa/perl-Crypt-OpenSSL-VerifyX509";
 
+author_tests 't/author';
+
 WriteAll();
 

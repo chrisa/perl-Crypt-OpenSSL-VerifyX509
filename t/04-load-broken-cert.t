@@ -4,7 +4,7 @@ use Crypt::OpenSSL::X509;
 
 my $v;
 eval {
-	$v = Crypt::OpenSSL::VerifyX509->new(__FILE__);
+        $v = Crypt::OpenSSL::VerifyX509->new(__FILE__);
 };
 ok(!$v);
 

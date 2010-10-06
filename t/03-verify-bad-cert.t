@@ -37,7 +37,7 @@ ok($cert);
 
 my $ret;
 eval {
-	$ret = $v->verify($cert);
+        $ret = $v->verify($cert);
 };
 ok($@ =~ /^verify: unable to get local issuer certificate/);
 ok(!$ret);
