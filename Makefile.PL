@@ -6,7 +6,6 @@ use warnings;
 use inc::Module::Install 0.91;
 use Module::Install::AuthorRequires;
 use Module::Install::AuthorTests;
-use Module::Install::ReadmeFromPod;
 
 use Config;
 
