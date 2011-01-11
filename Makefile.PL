@@ -54,7 +54,7 @@ if (-d "/usr/include/openssl") {
 }
 
 cc_lib_links('crypto');
-cc_optimize_flags('-O0 -g -Wall -Werror');
+cc_optimize_flags('-O3 -Wall -Werror');
 
 requires 'Crypt::OpenSSL::X509';
 
